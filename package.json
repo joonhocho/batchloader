@@ -1,7 +1,7 @@
 {
-  "name": "ts-jutil",
+  "name": "batchloader",
   "version": "0.0.1",
-  "description": "TypeScript library of simple utility functions",
+  "description": "BatchLoader is a utility for data fetching layer to reduce requests via batching written in TypeScript. Inspired by Facebook's DataLoader",
   "main": "lib/index.js",
   "types": "lib/index.d.ts",
   "scripts": {
@@ -18,20 +18,20 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/joonhocho/ts-jutil.git"
+    "url": "git+https://github.com/joonhocho/batchloader.git"
   },
   "keywords": [
     "TypeScript",
-    "utility",
-    "util",
-    "library"
+    "batch",
+    "batchloader",
+    "dataloader"
   ],
   "author": "Joon Ho Cho",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/joonhocho/ts-jutil/issues"
+    "url": "https://github.com/joonhocho/batchloader/issues"
   },
-  "homepage": "https://github.com/joonhocho/ts-jutil#readme",
+  "homepage": "https://github.com/joonhocho/batchloader#readme",
   "devDependencies": {
     "@types/jest": "^23.3.1",
     "@types/node": "^10.11.4",
