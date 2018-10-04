@@ -16,6 +16,12 @@ export class MappedBatchLoader<Key, Value, MappedValue>
     return this.loader.loadMany(keys).then(this.mapItems);
   }
 
+  public mapLoader<RemappedValue>(
+    mapFn: (value: MappedValue) => RemappedValue
+  ): MappedBatchLoader<Key, MappedValue, RemappedValue> {
+    return new MappedBatchLoader(this, mapFn);
+  }
+
   private mapItems = (vs: Value[]): MappedValue[] | Promise<MappedValue[]> => {
     const mapped = vs.map(this.mapFn);
     const len = mapped.length;
