@@ -1,6 +1,6 @@
 {
   "name": "batchloader",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "description": "BatchLoader is a utility for data fetching layer to reduce requests via batching written in TypeScript. Inspired by Facebook's DataLoader",
   "main": "lib/index.js",
   "types": "lib/index.d.ts",
