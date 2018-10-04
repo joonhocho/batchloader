@@ -6,7 +6,16 @@ export class MappedBatchLoader<Key, Value, MappedValue>
   constructor(
     protected loader: IBatchLoader<Key, Value>,
     protected mapFn: (v: Value) => MappedValue | Promise<MappedValue>
-  ) {}
+  ) {
+    if (
+      typeof process !== 'undefined' &&
+      process.env &&
+      process.env.NODE_ENV !== 'production'
+    ) {
+      // tslint:disable-next-line no-console
+      console.log('Deprecated! Use BatchLoader.createMapppedLoader instead!');
+    }
+  }
 
   public load(key: Key): Promise<MappedValue> {
     return this.loader.load(key).then(this.mapFn);

@@ -36,6 +36,29 @@ export class BatchLoader<Key, Value> implements IBatchLoader<Key, Value> {
     return Promise.resolve([]);
   }
 
+  public createMapppedLoader<MappedValue>(
+    mapFn: (value: Value) => MappedValue,
+    batchDelay = this.batchDelay
+  ): BatchLoader<Key, MappedValue> {
+    return new BatchLoader(
+      async (keys: Key[]): Promise<MappedValue[]> => {
+        const values = await this.batchFn(keys);
+        const mapped = values.map(mapFn);
+        const len = mapped.length;
+        for (let i = 0; i < len; i += 1) {
+          const item = mapped[i];
+          if (item != null && typeof (item as any).then === 'function') {
+            // has at least one promise
+            return Promise.all(mapped);
+          }
+        }
+        return mapped as MappedValue[];
+      },
+      this.keyToUniqueId,
+      batchDelay
+    );
+  }
+
   protected triggerBatch(): Promise<Value[]> {
     return (
       this.batchPromise ||
