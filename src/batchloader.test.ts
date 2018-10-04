@@ -96,7 +96,7 @@ describe('BatchLoader', () => {
     ]);
   });
 
-  test('sync createMapppedLoader', async () => {
+  test('sync mapLoader', async () => {
     const idss = [] as number[][];
     const loader = new BatchLoader(
       (ids: number[]): Promise<number[]> =>
@@ -107,7 +107,7 @@ describe('BatchLoader', () => {
           }
         ),
       String
-    ).createMapppedLoader(String);
+    ).mapLoader(String);
 
     expect(await loader.load(3)).toBe('6');
     expect(await loader.load(4)).toBe('8');
@@ -134,7 +134,7 @@ describe('BatchLoader', () => {
     expect(idss).toEqual([[3], [4], [5], [1, 2, 3], [1, 2, 3], [1, 2, 3]]);
   });
 
-  test('async createMapppedLoader', async () => {
+  test('async mapLoader', async () => {
     const idss = [] as number[][];
     const loader = new BatchLoader(
       (ids: number[]): Promise<number[]> =>
@@ -145,7 +145,7 @@ describe('BatchLoader', () => {
           }
         ),
       String
-    ).createMapppedLoader((x): Promise<string> => Promise.resolve(String(x)));
+    ).mapLoader((x): Promise<string> => Promise.resolve(String(x)));
 
     expect(await loader.load(3)).toBe('6');
     expect(await loader.load(4)).toBe('8');

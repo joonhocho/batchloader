@@ -1,3 +1,4 @@
+import { MappedBatchLoader } from 'src/mappedbatchloader';
 import { IBatchLoader } from 'src/types';
 
 export type BatchLoadFn<Key, Value> = (
@@ -36,27 +37,10 @@ export class BatchLoader<Key, Value> implements IBatchLoader<Key, Value> {
     return Promise.resolve([]);
   }
 
-  public createMapppedLoader<MappedValue>(
-    mapFn: (value: Value) => MappedValue,
-    batchDelay = this.batchDelay
-  ): BatchLoader<Key, MappedValue> {
-    return new BatchLoader(
-      async (keys: Key[]): Promise<MappedValue[]> => {
-        const values = await this.batchFn(keys);
-        const mapped = values.map(mapFn);
-        const len = mapped.length;
-        for (let i = 0; i < len; i += 1) {
-          const item = mapped[i];
-          if (item != null && typeof (item as any).then === 'function') {
-            // has at least one promise
-            return Promise.all(mapped);
-          }
-        }
-        return mapped as MappedValue[];
-      },
-      this.keyToUniqueId,
-      batchDelay
-    );
+  public mapLoader<MappedValue>(
+    mapFn: (value: Value) => MappedValue
+  ): MappedBatchLoader<Key, Value, MappedValue> {
+    return new MappedBatchLoader(this, mapFn);
   }
 
   protected triggerBatch(): Promise<Value[]> {
