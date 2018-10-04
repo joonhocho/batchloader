@@ -1,0 +1,48 @@
+{
+  "name": "ts-jutil",
+  "version": "0.0.1",
+  "description": "TypeScript library of simple utility functions",
+  "main": "lib/index.js",
+  "types": "lib/index.d.ts",
+  "scripts": {
+    "build": "tsc -p ./tsconfig.json && tscpaths -p ./tsconfig.json -s ./src -o ./lib",
+    "clear": "rm -rf ./lib ./coverage",
+    "format": "prettier --write \"./*.{js,jsx,ts,tsx}\" \"./src/**/*.{js,jsx,ts,tsx}\"",
+    "lint": "tslint -c ./tslint.json \"src/**/*\"",
+    "lint:fix": "tslint --fix -c ./tslint.json \"src/**/*\"",
+    "start": "yarn clear && yarn format && yarn lint:fix && yarn test && yarn build",
+    "prepublish": "yarn start",
+    "test": "jest",
+    "test:coverage": "jest --coverage",
+    "test:watch": "jest --watch"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/joonhocho/ts-jutil.git"
+  },
+  "keywords": [
+    "TypeScript",
+    "utility",
+    "util",
+    "library"
+  ],
+  "author": "Joon Ho Cho",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/joonhocho/ts-jutil/issues"
+  },
+  "homepage": "https://github.com/joonhocho/ts-jutil#readme",
+  "devDependencies": {
+    "@types/jest": "^23.3.1",
+    "@types/node": "^10.11.4",
+    "jest": "^23.5.0",
+    "prettier": "^1.14.2",
+    "ts-jest": "^23.1.4",
+    "tscpaths": "^0.0.5",
+    "tslint": "^5.11.0",
+    "tslint-config-airbnb": "^5.10.0",
+    "tslint-config-prettier": "^1.15.0",
+    "typescript": "^3.0.1"
+  },
+  "dependencies": {}
+}
