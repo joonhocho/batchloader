@@ -16,7 +16,7 @@ BatchLoader is a simplified version of Facebook's DataLoader and can be used wit
 
 \+ Similar api as DataLoader
 
-\+ Smaller in size
+\+ Smaller in size (0 dependencies)
 
 \+ MappedBatchLoader can be used to compose a new loader using existing loaders.
 
