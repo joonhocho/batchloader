@@ -4,19 +4,17 @@ import { MappedBatchLoader } from './mappedbatchloader';
 describe('MappedBatchLoader', () => {
   test('sync mapper', async () => {
     const idss = [] as number[][];
-    const loader = new MappedBatchLoader(
-      new BatchLoader(
-        (ids: number[]): Promise<number[]> =>
-          new Promise(
-            (resolve): void => {
-              idss.push(ids);
-              setTimeout(() => resolve(ids.map((i) => i * 2)), 10);
-            }
-          ),
-        String
-      ),
+    const loader1 = new BatchLoader(
+      (ids: number[]): Promise<number[]> =>
+        new Promise(
+          (resolve): void => {
+            idss.push(ids);
+            setTimeout(() => resolve(ids.map((i) => i * 2)), 10);
+          }
+        ),
       String
     );
+    const loader = new MappedBatchLoader(loader1, String);
 
     expect(await loader.load(3)).toBe('6');
     expect(await loader.load(4)).toBe('8');
@@ -40,7 +38,13 @@ describe('MappedBatchLoader', () => {
       ])
     ).toEqual([2, 4, 6, 4, 2, 4, 6].map(String));
 
-    expect(idss).toEqual([[3], [4], [5], [1, 2, 3], [1, 2, 3], [1, 2, 3]]);
+    // test one round trip
+    expect(await Promise.all([loader1.load(1), loader.load(1)])).toEqual([
+      2,
+      '2',
+    ]);
+
+    expect(idss).toEqual([[3], [4], [5], [1, 2, 3], [1, 2, 3], [1, 2, 3], [1]]);
   });
 
   test('async mapper', async () => {
