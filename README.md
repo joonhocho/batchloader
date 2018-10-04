@@ -101,10 +101,11 @@ You can map a loader to create another loader.
 ```typescript
 import { MappedBatchLoader } from 'batchloader';
 
-const usernameLoader = new MappedBatchLoader(
-  userLoader, // previously defined loader
-  (user) => user && user.username // mapping function
-);
+const getUsername = (user) => user && user.username;
+
+const usernameLoader = userLoader.mapLoader(getUsername);
+// or
+const usernameLoader = new MappedBatchLoader(userLoader, getUsername);
 
 // same APIs as BatchLoader
 const username = await usernameLoader.load(userId);
@@ -114,10 +115,9 @@ const [user1, username1] = await Promise.all([
   usernameLoader.load(id1),
 ]) // one round-trip request with keys being [id1], since usernameLoader is using userLoader internally and id1 is duplicate.
 
-const anotherMappedLoader = new MappedBatchLoader(
-  usernameLoader, // MappedBatchLoader can be mapped, too.
-  ...
-);
+const anotherMappedLoader = usernameLoader.mapLoader(mapFn);
+// or
+const anotherMappedLoader = new MappedBatchLoader(usernameLoader, mapFn);
 ```
 
 ## Caching
