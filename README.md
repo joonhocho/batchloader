@@ -6,7 +6,6 @@ BatchLoader is a simplified version of Facebook's DataLoader and can be used wit
 [![Build Status](https://travis-ci.org/joonhocho/batchloader.svg?branch=master)](https://travis-ci.org/joonhocho/batchloader)
 [![Coverage Status](https://coveralls.io/repos/github/joonhocho/batchloader/badge.svg?branch=master)](https://coveralls.io/github/joonhocho/batchloader?branch=master)
 [![npm version](https://badge.fury.io/js/batchloader.svg)](https://badge.fury.io/js/batchloader)
-[![Downloads](https://img.shields.io/npm/dm/batchloader.svg)](https://www.npmjs.com/package/batchloader)
 [![Dependency Status](https://david-dm.org/joonhocho/batchloader.svg)](https://david-dm.org/joonhocho/batchloader)
 [![License](http://img.shields.io/:license-mit-blue.svg)](http://doge.mit-license.org)
 
