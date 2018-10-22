@@ -1,11 +1,18 @@
 import { MappedBatchLoader } from 'src/mappedbatchloader';
-import { IBatchLoader } from 'src/types';
+import { IBatchLoader, MaybePromise } from 'src/types';
 
 export type BatchLoadFn<Key, Value> = (
   keys: Key[]
 ) => Value[] | Promise<Value[]>;
 
 export type KeyToUniqueId<Key> = (key: Key) => string;
+
+const sleep = (ms: number): Promise<void> =>
+  new Promise(
+    (resolve): void => {
+      setTimeout(resolve, ms);
+    }
+  );
 
 export class BatchLoader<Key, Value> implements IBatchLoader<Key, Value> {
   protected queuedKeys: Key[] = [];
@@ -14,7 +21,8 @@ export class BatchLoader<Key, Value> implements IBatchLoader<Key, Value> {
   constructor(
     protected batchFn: BatchLoadFn<Key, Value>,
     protected keyToUniqueId: KeyToUniqueId<Key> | null,
-    protected batchDelay = 0
+    protected batchDelay = 0,
+    protected batchSize = Number.MAX_SAFE_INTEGER
   ) {}
 
   public load(key: Key): Promise<Value> {
@@ -32,7 +40,9 @@ export class BatchLoader<Key, Value> implements IBatchLoader<Key, Value> {
       queuedKeys.push(...keys);
       const { length } = keys;
 
-      return this.triggerBatch().then((values) => values.slice(index, length));
+      return this.triggerBatch().then((values) =>
+        values.slice(index, index + length)
+      );
     }
     return Promise.resolve([]);
   }
@@ -84,11 +94,40 @@ export class BatchLoader<Key, Value> implements IBatchLoader<Key, Value> {
         return true;
       });
 
-      const values = await this.batchFn(uniqueKeys);
+      const values = await this.maybeBatchInChunks(uniqueKeys);
 
       return queuedKeys.map((_key, i) => values[idToNewIndex[indexToId[i]]]);
     }
 
-    return this.batchFn(queuedKeys);
+    return this.maybeBatchInChunks(queuedKeys);
+  }
+
+  private async maybeBatchInChunks(keys: Key[]): Promise<Value[]> {
+    if (keys.length <= this.batchSize) {
+      return this.batchFn(keys);
+    }
+    return this.batchInChunks(keys);
+  }
+
+  private async batchInChunks(keys: Key[]): Promise<Value[]> {
+    const { batchSize, batchDelay } = this;
+
+    const promises: Array<MaybePromise<Value[]>> = [];
+    const kLen = keys.length;
+    for (let i = 0; i < kLen; i += batchSize) {
+      promises.push(this.batchFn(keys.slice(i, i + batchSize)));
+      if (batchDelay) {
+        await sleep(batchDelay);
+      }
+    }
+
+    const results = await Promise.all(promises);
+    const rLen = results.length;
+    let values: Value[] = [];
+    for (let i = 0; i < rLen; i += 1) {
+      values = values.concat(results[i]);
+    }
+
+    return values;
   }
 }

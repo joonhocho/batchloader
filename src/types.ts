@@ -5,3 +5,5 @@ export interface IBatchLoader<Key, Value> {
     mapFn: (value: Value) => MappedValue
   ): IBatchLoader<Key, MappedValue>;
 }
+
+export type MaybePromise<T> = T | Promise<T>;

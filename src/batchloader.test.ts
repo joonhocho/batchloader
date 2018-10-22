@@ -96,6 +96,32 @@ describe('BatchLoader', () => {
     ]);
   });
 
+  test('batchSize', async () => {
+    const idss = [] as number[][];
+    const loader = new BatchLoader(
+      (ids: number[]): Promise<number[]> =>
+        new Promise(
+          (resolve): void => {
+            idss.push(ids);
+            setTimeout(() => resolve(ids.map((i) => i * 2)), 10);
+          }
+        ),
+      String,
+      10,
+      2
+    );
+
+    expect(
+      await Promise.all([
+        loader.load(1),
+        loader.load(2),
+        loader.loadMany([3, 4, 5]),
+        loader.load(6),
+        loader.loadMany([7, 8]),
+      ])
+    ).toEqual([2, 4, [6, 8, 10], 12, [14, 16]]);
+  });
+
   test('sync mapLoader', async () => {
     const idss = [] as number[][];
     const loader = new BatchLoader(
