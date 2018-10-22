@@ -19,6 +19,7 @@ describe('BatchLoader', () => {
     expect(await loader.load(5)).toBe(10);
 
     expect(await loader.loadMany([])).toEqual([]);
+    expect(await loader.loadMany([])).toEqual([]);
     expect(await loader.loadMany([1, 2, 3])).toEqual([2, 4, 6]);
     expect(await loader.loadMany([1, 2, 3, 2, 3, 2, 1])).toEqual([
       2,
@@ -29,6 +30,7 @@ describe('BatchLoader', () => {
       4,
       2,
     ]);
+    expect(await loader.loadMany([])).toEqual([]);
 
     expect(
       await Promise.all([

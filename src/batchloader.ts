@@ -1,3 +1,4 @@
+import { Cache, CacheLoader } from 'src/cacheloader';
 import { MappedBatchLoader } from 'src/mappedbatchloader';
 import { IBatchLoader, MaybePromise } from 'src/types';
 
@@ -53,6 +54,10 @@ export class BatchLoader<Key, Value> implements IBatchLoader<Key, Value> {
     return new MappedBatchLoader(this, mapFn);
   }
 
+  public cacheLoader(cache?: Cache<Key, Value>): CacheLoader<Key, Value> {
+    return new CacheLoader(this, cache);
+  }
+
   protected triggerBatch(): Promise<Value[]> {
     return (
       this.batchPromise ||
@@ -69,10 +74,6 @@ export class BatchLoader<Key, Value> implements IBatchLoader<Key, Value> {
 
   protected async runBatchNow(): Promise<Value[]> {
     const { queuedKeys, keyToUniqueId } = this;
-    if (!queuedKeys.length) {
-      return [];
-    }
-
     this.queuedKeys = [];
 
     if (keyToUniqueId) {
