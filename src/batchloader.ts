@@ -77,9 +77,9 @@ export class BatchLoader<Key, Value> implements IBatchLoader<Key, Value> {
     this.queuedKeys = [];
 
     if (keyToUniqueId) {
-      const idMap = {} as { [key: string]: true };
-      const indexToId = [] as string[];
-      const idToNewIndex = {} as { [key: string]: number };
+      const idMap: { [key: string]: true } = {};
+      const indexToId: string[] = [];
+      const idToNewIndex: { [key: string]: number } = {};
 
       let newIndex = 0;
 
