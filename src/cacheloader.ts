@@ -1,8 +1,7 @@
 import { MappedBatchLoader } from 'src/mappedbatchloader';
 import { IBatchLoader, MaybePromise } from 'src/types';
 
-// tslint:disable-next-line interface-name
-export interface Cache<Key, Value> {
+export interface ICache<Key, Value> {
   clear(): void;
   delete(key: Key): boolean;
   get(key: Key): Value | undefined;
@@ -10,12 +9,12 @@ export interface Cache<Key, Value> {
 }
 
 export class CacheLoader<Key, Value>
-  implements IBatchLoader<Key, Value>, Cache<Key, MaybePromise<Value>> {
+  implements IBatchLoader<Key, Value>, ICache<Key, MaybePromise<Value>> {
   public promiseCache: Map<Key, Promise<Value>>;
 
   constructor(
     protected loader: IBatchLoader<Key, Value>,
-    public cache: Cache<Key, Value> = new Map<Key, Value>()
+    public cache: ICache<Key, Value> = new Map<Key, Value>()
   ) {
     this.promiseCache = new Map<Key, Promise<Value>>();
   }
@@ -43,7 +42,7 @@ export class CacheLoader<Key, Value>
   }
 
   public mapLoader<MappedValue>(
-    mapFn: (value: Value) => MappedValue
+    mapFn: (value: Value, key: Key) => MappedValue
   ): MappedBatchLoader<Key, Value, MappedValue> {
     return new MappedBatchLoader(this, mapFn);
   }

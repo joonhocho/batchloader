@@ -1,4 +1,4 @@
-import { Cache, CacheLoader } from 'src/cacheloader';
+import { CacheLoader, ICache } from 'src/cacheloader';
 import { MappedBatchLoader } from 'src/mappedbatchloader';
 import { IBatchLoader, MaybePromise } from 'src/types';
 
@@ -49,12 +49,12 @@ export class BatchLoader<Key, Value> implements IBatchLoader<Key, Value> {
   }
 
   public mapLoader<MappedValue>(
-    mapFn: (value: Value) => MappedValue
+    mapFn: (value: Value, key: Key) => MappedValue
   ): MappedBatchLoader<Key, Value, MappedValue> {
     return new MappedBatchLoader(this, mapFn);
   }
 
-  public cacheLoader(cache?: Cache<Key, Value>): CacheLoader<Key, Value> {
+  public cacheLoader(cache?: ICache<Key, Value>): CacheLoader<Key, Value> {
     return new CacheLoader(this, cache);
   }
 
