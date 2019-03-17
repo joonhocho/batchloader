@@ -72,40 +72,42 @@ export class BatchLoader<Key, Value> implements IBatchLoader<Key, Value> {
     );
   }
 
-  protected async runBatchNow(): Promise<Value[]> {
+  protected runBatchNow(): Promise<Value[]> {
     const { queuedKeys, keyToUniqueId } = this;
     this.queuedKeys = [];
 
     if (keyToUniqueId) {
-      const idMap = {} as { [key: string]: true };
-      const indexToId = [] as string[];
-      const idToNewIndex = {} as { [key: string]: number };
+      const idMap: { [key: string]: true } = {};
+      const indexToId: string[] = [];
+      const idToNewIndex: { [key: string]: number } = {};
 
       let newIndex = 0;
 
-      const uniqueKeys = queuedKeys.filter((key, i) => {
+      const uniqueKeys = [];
+      const len = queuedKeys.length;
+      for (let i = 0; i < len; i += 1) {
+        const key = queuedKeys[i];
         const id = keyToUniqueId(key);
         indexToId[i] = id;
-        if (idMap[id] === true) {
-          return false;
+        if (idMap[id] !== true) {
+          idMap[id] = true;
+          idToNewIndex[id] = newIndex;
+          newIndex += 1;
+          uniqueKeys.push(key);
         }
-        idMap[id] = true;
-        idToNewIndex[id] = newIndex;
-        newIndex += 1;
-        return true;
-      });
+      }
 
-      const values = await this.maybeBatchInChunks(uniqueKeys);
-
-      return queuedKeys.map((_key, i) => values[idToNewIndex[indexToId[i]]]);
+      return this.maybeBatchInChunks(uniqueKeys).then((values) =>
+        queuedKeys.map((_key, i) => values[idToNewIndex[indexToId[i]]])
+      );
     }
 
     return this.maybeBatchInChunks(queuedKeys);
   }
 
-  private async maybeBatchInChunks(keys: Key[]): Promise<Value[]> {
+  private maybeBatchInChunks(keys: Key[]): Promise<Value[]> {
     if (keys.length <= this.batchSize) {
-      return this.batchFn(keys);
+      return Promise.resolve(this.batchFn(keys));
     }
     return this.batchInChunks(keys);
   }
