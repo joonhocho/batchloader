@@ -1,6 +1,6 @@
 {
   "name": "batchloader",
-  "version": "0.0.8",
+  "version": "0.0.9",
   "description": "BatchLoader is a utility for data fetching layer to reduce requests via batching written in TypeScript. Inspired by Facebook's DataLoader",
   "main": "lib/index.js",
   "types": "lib/index.d.ts",
@@ -34,17 +34,17 @@
   },
   "homepage": "https://github.com/joonhocho/batchloader#readme",
   "devDependencies": {
-    "@types/jest": "^23.3.1",
-    "@types/node": "^10.11.4",
-    "coveralls": "^3.0.2",
-    "jest": "^23.5.0",
-    "prettier": "^1.14.2",
-    "ts-jest": "^23.1.4",
-    "tscpaths": "^0.0.5",
-    "tslint": "^5.11.0",
-    "tslint-config-airbnb": "^5.10.0",
-    "tslint-config-prettier": "^1.15.0",
-    "typescript": "^3.0.1"
+    "@types/jest": "^24.0.11",
+    "@types/node": "^11.11.3",
+    "coveralls": "^3.0.3",
+    "jest": "^24.5.0",
+    "prettier": "^1.16.4",
+    "ts-jest": "^24.0.0",
+    "tscpaths": "^0.0.6",
+    "tslint": "^5.14.0",
+    "tslint-config-airbnb": "^5.11.1",
+    "tslint-config-prettier": "^1.18.0",
+    "typescript": "^3.3.3333"
   },
   "dependencies": {}
 }
