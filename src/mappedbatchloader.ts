@@ -1,37 +1,38 @@
 import { IBatchLoader } from 'src/types';
 
-// tslint:disable-next-line max-classes-per-file
 export class MappedBatchLoader<Key, Value, MappedValue>
   implements IBatchLoader<Key, MappedValue> {
   constructor(
     protected loader: IBatchLoader<Key, Value>,
-    protected mapFn: (v: Value) => MappedValue | Promise<MappedValue>
+    protected mapFn: (
+      value: Value,
+      key: Key
+    ) => MappedValue | Promise<MappedValue>
   ) {}
 
   public load(key: Key): Promise<MappedValue> {
-    return this.loader.load(key).then(this.mapFn);
+    return this.loader.load(key).then((value) => this.mapFn(value, key));
   }
 
   public loadMany(keys: Key[]): Promise<MappedValue[]> {
-    return this.loader.loadMany(keys).then(this.mapItems);
+    return this.loader.loadMany(keys).then((values) => {
+      let hasPromise = false;
+      const results: Array<MappedValue | Promise<MappedValue>> = [];
+      const len = values.length;
+      for (let i = 0; i < len; i += 1) {
+        const res = this.mapFn(values[i], keys[i]);
+        results.push(res);
+        hasPromise =
+          hasPromise ||
+          (res != null && typeof (res as any).then === 'function');
+      }
+      return hasPromise ? Promise.all(results) : (results as MappedValue[]);
+    });
   }
 
   public mapLoader<RemappedValue>(
-    mapFn: (value: MappedValue) => RemappedValue
+    mapFn: (value: MappedValue, key: Key) => RemappedValue
   ): MappedBatchLoader<Key, MappedValue, RemappedValue> {
     return new MappedBatchLoader(this, mapFn);
   }
-
-  private mapItems = (vs: Value[]): MappedValue[] | Promise<MappedValue[]> => {
-    const mapped = vs.map(this.mapFn);
-    const len = mapped.length;
-    for (let i = 0; i < len; i += 1) {
-      const item = mapped[i];
-      if (item != null && typeof (item as any).then === 'function') {
-        // has at least one promise
-        return Promise.all(mapped);
-      }
-    }
-    return mapped as MappedValue[];
-  };
 }
