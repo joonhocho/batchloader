@@ -36,6 +36,8 @@ export const proxyLoaderWithCache = <Key, Value>(
           values[missingIndexes[i]] = value;
           missingKeyValues.push([missingKeys[i], value]);
         }
+
+        // do not await
         cache.mset(missingKeyValues);
       }
 
