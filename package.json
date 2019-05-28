@@ -1,17 +1,18 @@
 {
   "name": "batchloader",
-  "version": "0.0.11",
+  "version": "0.0.12",
   "description": "BatchLoader is a utility for data fetching layer to reduce requests via batching written in TypeScript. Inspired by Facebook's DataLoader",
   "main": "lib/index.js",
   "types": "lib/index.d.ts",
   "scripts": {
     "build": "tsc -p ./tsconfig.json && tscpaths -p ./tsconfig.json -s ./src -o ./lib",
-    "clear": "rm -rf ./lib ./coverage",
+    "clean": "rm -rf ./lib ./coverage",
     "format": "prettier --write \"./*.{js,jsx,ts,tsx}\" \"./src/**/*.{js,jsx,ts,tsx}\"",
     "lint": "tslint -c ./tslint.json \"src/**/*\"",
     "lint:fix": "tslint --fix -c ./tslint.json \"src/**/*\"",
-    "start": "yarn clear && yarn format && yarn lint:fix && yarn test && yarn build",
     "prepublish": "yarn start",
+    "reinstall": "rm -rf ./node_modules yarn.lock && yarn",
+    "start": "yarn clean && yarn format && yarn lint:fix && yarn test && yarn build",
     "test": "jest",
     "test:coverage": "jest --coverage",
     "test:coverage:report": "jest --coverage && cat ./coverage/lcov.info | coveralls",
@@ -34,17 +35,17 @@
   },
   "homepage": "https://github.com/joonhocho/batchloader#readme",
   "devDependencies": {
-    "@types/jest": "^24.0.11",
-    "@types/node": "^11.11.6",
+    "@types/jest": "^24.0.13",
+    "@types/node": "^12.0.2",
     "coveralls": "^3.0.3",
-    "jest": "^24.5.0",
-    "prettier": "^1.16.4",
-    "ts-jest": "^24.0.0",
-    "tscpaths": "^0.0.6",
-    "tslint": "^5.14.0",
+    "jest": "^24.8.0",
+    "prettier": "^1.17.1",
+    "ts-jest": "^24.0.2",
+    "tscpaths": "^0.0.9",
+    "tslint": "^5.16.0",
     "tslint-config-airbnb": "^5.11.1",
     "tslint-config-prettier": "^1.18.0",
-    "typescript": "^3.3.4000"
+    "typescript": "^3.4.5"
   },
   "dependencies": {}
 }
