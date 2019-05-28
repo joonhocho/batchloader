@@ -60,4 +60,12 @@ typings/
 # next.js build output
 .next
 
+# Compiled
 lib
+
+# OS
+.DS_Store
+
+# Temp file
+*.swp
+*~
