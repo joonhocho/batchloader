@@ -62,6 +62,8 @@ typings/
 
 # Compiled
 lib
+es5
+es6
 
 # OS
 .DS_Store

@@ -6,7 +6,8 @@
 --ignore-dir=build
 --ignore-dir=cjs
 --ignore-dir=dist
---ignore-dir=esm
+--ignore-dir=es5
+--ignore-dir=es6
 --ignore-dir=lib
 --ignore-dir=node_modules
 --ignore-file=match:.DS_Store
