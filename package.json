@@ -5,19 +5,22 @@
   "main": "lib/index.js",
   "types": "lib/index.d.ts",
   "scripts": {
+    "all": "yarn clean && yarn format && yarn lint:fix && yarn test && yarn build",
     "build": "tsc -p ./tsconfig.json && tscpaths -p ./tsconfig.json -s ./src -o ./lib",
     "clean": "rm -rf ./lib ./coverage",
     "format": "prettier --write \"./*.{js,jsx,ts,tsx}\" \"./src/**/*.{js,jsx,ts,tsx}\"",
     "lint": "tslint -c ./tslint.json \"src/**/*\"",
     "lint:fix": "tslint --fix -c ./tslint.json \"src/**/*\"",
-    "prepublish": "yarn start",
+    "precommit": "yarn all",
+    "prepublish": "yarn all",
     "reinstall": "rm -rf ./node_modules yarn.lock && yarn",
-    "start": "yarn clean && yarn format && yarn lint:fix && yarn test && yarn build",
+    "start": "yarn test",
     "test": "jest",
     "test:coverage": "jest --coverage",
     "test:coverage:report": "jest --coverage && cat ./coverage/lcov.info | coveralls",
     "test:watch": "jest --watch"
   },
+  "pre-commit": "precommit",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/joonhocho/batchloader.git"
@@ -39,6 +42,7 @@
     "@types/node": "^12.0.2",
     "coveralls": "^3.0.3",
     "jest": "^24.8.0",
+    "pre-commit": "^1.2.2",
     "prettier": "^1.17.1",
     "ts-jest": "^24.0.2",
     "tscpaths": "^0.0.9",
@@ -46,6 +50,5 @@
     "tslint-config-airbnb": "^5.11.1",
     "tslint-config-prettier": "^1.18.0",
     "typescript": "^3.4.5"
-  },
-  "dependencies": {}
+  }
 }
