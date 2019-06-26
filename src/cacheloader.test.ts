@@ -5,12 +5,10 @@ describe('CacheLoader', () => {
     const idss = [] as number[][];
     const bloader = new BatchLoader(
       (ids: number[]): Promise<number[]> =>
-        new Promise(
-          (resolve): void => {
-            idss.push(ids);
-            setTimeout(() => resolve(ids.map((i) => i * 2)), 10);
-          }
-        ),
+        new Promise((resolve): void => {
+          idss.push(ids);
+          setTimeout(() => resolve(ids.map((i) => i * 2)), 10);
+        }),
       String
     );
     const loader = bloader.cacheLoader();

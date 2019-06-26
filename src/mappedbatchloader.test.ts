@@ -6,12 +6,10 @@ describe('MappedBatchLoader', () => {
     const idss = [] as number[][];
     const loader1 = new BatchLoader(
       (ids: number[]): Promise<number[]> =>
-        new Promise(
-          (resolve): void => {
-            idss.push(ids);
-            setTimeout(() => resolve(ids.map((i) => i * 2)), 10);
-          }
-        ),
+        new Promise((resolve): void => {
+          idss.push(ids);
+          setTimeout(() => resolve(ids.map((i) => i * 2)), 10);
+        }),
       String
     );
     const loader = new MappedBatchLoader(loader1, String);
@@ -52,12 +50,10 @@ describe('MappedBatchLoader', () => {
     const loader = new MappedBatchLoader(
       new BatchLoader(
         (ids: number[]): Promise<number[]> =>
-          new Promise(
-            (resolve): void => {
-              idss.push(ids);
-              setTimeout(() => resolve(ids.map((i) => i * 2)), 10);
-            }
-          ),
+          new Promise((resolve): void => {
+            idss.push(ids);
+            setTimeout(() => resolve(ids.map((i) => i * 2)), 10);
+          }),
         String
       ),
       (x): Promise<string> => Promise.resolve(String(x))
@@ -92,12 +88,10 @@ describe('MappedBatchLoader', () => {
     const idss = [] as number[][];
     const loader = new BatchLoader(
       (ids: number[]): Promise<number[]> =>
-        new Promise(
-          (resolve): void => {
-            idss.push(ids);
-            setTimeout(() => resolve(ids.map((i) => i * 2)), 10);
-          }
-        ),
+        new Promise((resolve): void => {
+          idss.push(ids);
+          setTimeout(() => resolve(ids.map((i) => i * 2)), 10);
+        }),
       String
     )
       .mapLoader((x): Promise<string> => Promise.resolve(String(x)))

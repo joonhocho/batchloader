@@ -9,11 +9,9 @@ export type BatchLoadFn<Key, Value> = (
 export type KeyToUniqueId<Key> = (key: Key) => string;
 
 const sleep = (ms: number): Promise<void> =>
-  new Promise(
-    (resolve): void => {
-      setTimeout(resolve, ms);
-    }
-  );
+  new Promise((resolve): void => {
+    setTimeout(resolve, ms);
+  });
 
 export class BatchLoader<Key, Value> implements IBatchLoader<Key, Value> {
   protected queuedKeys: Key[] = [];
@@ -61,14 +59,12 @@ export class BatchLoader<Key, Value> implements IBatchLoader<Key, Value> {
   protected triggerBatch(): Promise<Value[]> {
     return (
       this.batchPromise ||
-      (this.batchPromise = new Promise(
-        (resolve, reject): void => {
-          setTimeout(() => {
-            this.batchPromise = null;
-            this.runBatchNow().then(resolve, reject);
-          }, this.batchDelay);
-        }
-      ))
+      (this.batchPromise = new Promise((resolve, reject): void => {
+        setTimeout(() => {
+          this.batchPromise = null;
+          this.runBatchNow().then(resolve, reject);
+        }, this.batchDelay);
+      }))
     );
   }
 
