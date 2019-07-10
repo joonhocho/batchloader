@@ -1,0 +1,10 @@
+{
+  "extends": "./tsconfig.build.json",
+  "compilerOptions": {
+    "outDir": "dist/browser",
+    "declarationDir": "dist/browser",
+    "lib": ["dom", "esnext"],
+    "target": "es5",
+    "module": "commonjs"
+  }
+}
