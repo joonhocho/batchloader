@@ -5,7 +5,7 @@
     "declarationDir": "lib",
     "tsBuildInfoFile": "lib/tsconfig.module.tsbuildinfo",
     "lib": ["esnext"],
-    "target": "esnext",
+    "target": "es2017",
     "module": "es6"
   }
 }

@@ -1,4 +1,4 @@
-import { IBatchLoader } from 'src/types';
+import { IBatchLoader } from '_src/types';
 
 export class MappedBatchLoader<Key, Value, MappedValue>
   implements IBatchLoader<Key, MappedValue> {

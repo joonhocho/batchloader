@@ -1,5 +1,5 @@
-import { MappedBatchLoader } from 'src/mappedbatchloader';
-import { IBatchLoader, MaybePromise } from 'src/types';
+import { MappedBatchLoader } from '_src/mappedbatchloader';
+import { IBatchLoader, MaybePromise } from '_src/types';
 
 export interface ICache<Key, Value> {
   clear(): void;

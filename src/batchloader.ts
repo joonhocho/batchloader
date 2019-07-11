@@ -1,6 +1,6 @@
-import { CacheLoader, ICache } from 'src/cacheloader';
-import { MappedBatchLoader } from 'src/mappedbatchloader';
-import { IBatchLoader, MaybePromise } from 'src/types';
+import { CacheLoader, ICache } from '_src/cacheloader';
+import { MappedBatchLoader } from '_src/mappedbatchloader';
+import { IBatchLoader, MaybePromise } from '_src/types';
 
 export type BatchLoadFn<Key, Value> = (
   keys: Key[]

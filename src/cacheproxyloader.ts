@@ -1,5 +1,5 @@
-import { BatchLoader, KeyToUniqueId } from 'src/batchloader';
-import { IBatchLoader, MaybePromise } from 'src/types';
+import { BatchLoader, KeyToUniqueId } from '_src/batchloader';
+import { IBatchLoader, MaybePromise } from '_src/types';
 
 export interface IBatchCache<Key, Value> {
   mget: (keys: Key[]) => MaybePromise<Array<Value | undefined>>;
