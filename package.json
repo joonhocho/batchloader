@@ -1,6 +1,6 @@
 {
   "name": "batchloader",
-  "version": "0.0.21",
+  "version": "0.0.22",
   "description": "BatchLoader is a utility for data fetching layer to reduce requests via batching written in TypeScript. Inspired by Facebook's DataLoader",
   "keywords": [
     "TypeScript",
@@ -34,7 +34,7 @@
     "lint": "tslint -c ./tslint.json \"src/**/*.ts\"",
     "lint:fix": "tslint --fix -c ./tslint.json \"src/**/*.ts\"",
     "precommit": "npm run all",
-    "prepublish": "npm run all",
+    "prepublishOnly": "npm run all",
     "reinstall": "rm -rf ./node_modules ./package-lock.json ./yarn.lock && yarn",
     "start": "npm run test",
     "test": "jest",
@@ -47,18 +47,18 @@
     "tslib": "^1.10.0"
   },
   "devDependencies": {
-    "@types/jest": "^24.0.15",
-    "@types/node": "^12.6.2",
-    "coveralls": "^3.0.4",
-    "jest": "^24.8.0",
+    "@types/jest": "^24.0.20",
+    "@types/node": "^12.11.7",
+    "coveralls": "^3.0.7",
+    "jest": "^24.9.0",
     "pre-commit": "^1.2.2",
     "prettier": "^1.18.2",
-    "ts-jest": "^24.0.2",
+    "ts-jest": "^24.1.0",
     "tscpaths": "^0.0.9",
-    "tslint": "^5.18.0",
-    "tslint-config-airbnb": "^5.11.1",
+    "tslint": "^5.20.0",
+    "tslint-config-airbnb": "^5.11.2",
     "tslint-config-prettier": "^1.18.0",
-    "typescript": "^3.5.3"
+    "typescript": "^3.6.4"
   },
   "engines": {
     "node": ">=8.0.0"
